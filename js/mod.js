@@ -19,7 +19,7 @@ let VERSION = {
 
 let changelog = `<h1>Changelog:</h1><br><br>
 
-	<h3>v1.0 beta</h3><br><br>
+	<h3>v1.01 beta</h3><br><br>
 
 		- Added Crystalize.<br>
 		- Added Acomplishments.<br>
