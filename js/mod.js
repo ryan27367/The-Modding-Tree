@@ -1,5 +1,5 @@
 let modInfo = {
-	name: "The ??? Tree",
+	name: "The GCI Tree",
 	id: "mymod",
 	author: "nobody",
 	pointsName: "points",
@@ -13,14 +13,26 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0",
-	name: "Literally nothing",
+	num: "1.2",
+	name: "Beta",
 }
 
-let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0</h3><br>
-		- Added things.<br>
-		- Added stuff.`
+let changelog = `<h1>Changelog:</h1><br><br>
+
+	<h3>v1.0 beta</h3><br><br>
+
+		- Added Crystalize.<br>
+		- Added Acomplishments.<br>
+		- Added 4 crystal upgrades.<br>
+		- Added 10 PP upgrades.<br>
+		- Added 9 achievements.<br>
+		- Added 7 Milestones.<br>
+		- Changed endgame from 3,000 points to 5e30 points.<br>
+		- Changed so that the next upgrade only appears when you have bought the last one.<br>
+		- Added 1 softcap.<br>
+		- Added hardcaps for some upgrades.
+		`
+
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
@@ -41,8 +53,13 @@ function canGenPoints(){
 function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
-
 	let gain = new Decimal(1)
+	if (hasUpgrade('p', 11)) gain = gain.add(4)
+	if (hasUpgrade('p', 12)) gain = gain.mul(2)
+	if (hasMilestone("G", 1)) gain = gain.mul(5)
+	if (hasUpgrade('p', 13)) gain = gain.times(upgradeEffect('p', 13))
+	if (hasUpgrade('p', 15)) gain = gain.times(upgradeEffect('p', 15))
+	if (hasUpgrade('C', 11)) gain = gain.times(upgradeEffect('C', 11))
 	return gain
 }
 
@@ -56,7 +73,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("e280000000"))
+	return player.points.gte(new Decimal("5e30"))
 }
 
 

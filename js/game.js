@@ -9,11 +9,11 @@ const TMT_VERSION = {
 
 function getResetGain(layer, useType = null) {
 	let type = useType
-	if (!useType){ 
+	if (!useType){
 		type = tmp[layer].type
 		if (layers[layer].getResetGain !== undefined)
 			return layers[layer].getResetGain()
-	} 
+	}
 	if(tmp[layer].type == "none")
 		return new Decimal (0)
 	if (tmp[layer].gainExp.eq(0)) return decimalZero
@@ -49,7 +49,7 @@ function getNextAt(layer, canMax=false, useType = null) {
 	if (tmp[layer].gainMult.lte(0)) return new Decimal(Infinity)
 	if (tmp[layer].gainExp.lte(0)) return new Decimal(Infinity)
 
-	if (type=="static") 
+	if (type=="static")
 	{
 		if (!tmp[layer].canBuyMax) canMax = false
 		let amt = player[layer].points.plus((canMax&&tmp[layer].baseAmount.gte(tmp[layer].nextAt))?tmp[layer].resetGain:0).div(tmp[layer].directMult)
@@ -109,20 +109,20 @@ function shouldNotify(layer){
 			}
 		}
 	}
-	 
+
 	return false
-	
+
 }
 
 function canReset(layer)
-{	
+{
 	if (layers[layer].canReset!== undefined)
 		return run(layers[layer].canReset, layers[layer])
 	else if(tmp[layer].type == "normal")
 		return tmp[layer].baseAmount.gte(tmp[layer].requires)
 	else if(tmp[layer].type== "static")
-		return tmp[layer].baseAmount.gte(tmp[layer].nextAt) 
-	else 
+		return tmp[layer].baseAmount.gte(tmp[layer].nextAt)
+	else
 		return false
 }
 
@@ -176,20 +176,20 @@ function doReset(layer, force=false) {
 	if (tmp[layer].type == "none") return
 	let row = tmp[layer].row
 	if (!force) {
-		
+
 		if (tmp[layer].canReset === false) return;
-		
+
 		if (tmp[layer].baseAmount.lt(tmp[layer].requires)) return;
 		let gain = tmp[layer].resetGain
 		if (tmp[layer].type=="static") {
 			if (tmp[layer].baseAmount.lt(tmp[layer].nextAt)) return;
 			gain =(tmp[layer].canBuyMax ? gain : 1)
-		} 
+		}
 
 
 		if (layers[layer].onPrestige)
 			run(layers[layer].onPrestige, layers[layer], gain)
-		
+
 		addPoints(layer, gain)
 		updateMilestones(layer)
 		updateAchievements(layer)
@@ -204,7 +204,7 @@ function doReset(layer, force=false) {
 					if (!player[lrs[lr]].unlocked) player[lrs[lr]].unlockOrder++
 			}
 		}
-	
+
 	}
 
 	if (run(layers[layer].resetsNothing, layers[layer])) return
@@ -252,7 +252,7 @@ function startChallenge(layer, x) {
 		Vue.set(player[layer], "activeChallenge", null)
 		} else {
 		enter = true
-	}	
+	}
 	doReset(layer, true)
 	if(enter) {
 		Vue.set(player[layer], "activeChallenge", x)
@@ -270,11 +270,11 @@ function canCompleteChallenge(layer, x)
 	if (challenge.currencyInternalName){
 		let name = challenge.currencyInternalName
 		if (challenge.currencyLocation){
-			return !(challenge.currencyLocation[name].lt(challenge.goal)) 
+			return !(challenge.currencyLocation[name].lt(challenge.goal))
 		}
 		else if (challenge.currencyLayer){
 			let lr = challenge.currencyLayer
-			return !(player[lr][name].lt(challenge.goal)) 
+			return !(player[lr][name].lt(challenge.goal))
 		}
 		else {
 			return !(player[name].lt(challenge.goal))
@@ -289,7 +289,7 @@ function canCompleteChallenge(layer, x)
 function completeChallenge(layer, x) {
 	var x = player[layer].activeChallenge
 	if (!x) return
-	
+
 	let completions = canCompleteChallenge(layer, x)
 	if (!completions){
 		Vue.set(player[layer], "activeChallenge", null)
@@ -315,7 +315,7 @@ function autobuyUpgrades(layer){
 	if (!tmp[layer].upgrades) return
 	for (id in tmp[layer].upgrades)
 		if (isPlainObject(tmp[layer].upgrades[id]) && (layers[layer].upgrades[id].canAfford === undefined || layers[layer].upgrades[id].canAfford() === true))
-			buyUpg(layer, id) 
+			buyUpg(layer, id)
 }
 
 function gameLoop(diff) {
@@ -355,7 +355,7 @@ function gameLoop(diff) {
 			if (tmp[layer].passiveGeneration) generatePoints(layer, diff*tmp[layer].passiveGeneration);
 			if (layers[layer].update) layers[layer].update(diff);
 		}
-	}	
+	}
 
 	for (let x = maxRow; x >= 0; x--){
 		for (item in TREE_LAYERS[x]) {
