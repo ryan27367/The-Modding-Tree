@@ -205,8 +205,7 @@ addLayer("C", {
     canReset() {
         return tmp[this.layer].baseAmount.gte(tmp[this.layer].nextAt)
     },
-},
-)
+})
 addLayer("G", {
     color: "#C0C0C0",
     requires() {return new Decimal(15000)},
@@ -260,8 +259,7 @@ addLayer("G", {
             unlocked() { return (hasMilestone('G', 5)) },
         },
     },
-},
-)
+})
 addLayer("a", {
     color: "yellow",
     resource: "achievement power",
